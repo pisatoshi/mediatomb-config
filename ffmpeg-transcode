@@ -1,0 +1,23 @@
+#!/bin/bash
+
+FFMPEG_PATH="/usr/bin/ffmpeg"
+INPUT="$1"
+OUTPUT="$2"
+OPT_SEEKPOS="-ss $3"
+
+OPT_VCODEC="-vcodec mpeg2video"
+OPT_VBRATE="-b 4096k"
+#OPT_VFRATE="-r 25"
+OPT_ACODEC="-acodec mp2"
+OPT_ABRATE="-ab 128k"
+#OPT_AFRATE="-ar 44100"
+OPT_ACHS="-ac 2"
+
+OPT_ASPECT="-aspect 4:3"
+OPT_THREADS="-threads 1"
+FORMAT="mpegts"
+
+exec "${FFMPEG_PATH}" ${OPT_SEEKPOS} -i "${INPUT}" -f ${FORMAT} \
+      ${OPT_VCODEC} ${OPT_VBRATE} ${OPT_VFRATE} -async 100 \
+      ${OPT_ACODEC} ${OPT_ABRATE} ${OPT_AFRATE} ${OPT_ACHS} \
+      ${OPT_ASPECT} ${OPT_THREADS} - > "${OUTPUT}"
